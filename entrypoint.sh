@@ -11,7 +11,7 @@
 cat > config.json << EOF
 {
   "logStdOut": ${LOG_STD_OUT},
-  "port": ${HTTP_PORT}
+  "port": ${HTTP_PORT},
   "logLevel": "${LOG_LEVEL}",
   "ice.singlePort": ${UDP_PORT},
   "ice.udpPortRangeLow": ${UDP_PORT_LOW},
