@@ -36,4 +36,4 @@ Default configuraiton can be changed by setting these environment variables:
 - `LOG_LEVEL`
 - `LOG_STD_OUT`
 - `TCP_ENABLE`
-
+- `IPV4_ADDR` (no quotes)
