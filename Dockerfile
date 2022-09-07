@@ -10,7 +10,9 @@ RUN ./build.sh
 FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
-RUN apt-get -y install libc++-dev libc++abi-dev libsrtp2-1 libmicrohttpd12 libopus0 libssl1.1
+RUN apt-get -y install libc++-dev libc++abi-dev \
+    libsrtp2-1 libmicrohttpd12 libopus0 libssl1.1 \
+    nginx
 
 WORKDIR /app
 COPY --from=0 /src/SymphonyMediaBridge/smb ./smb

@@ -11,7 +11,7 @@
 cat > config.json << EOF
 {
   "logStdOut": ${LOG_STD_OUT},
-  "port": ${HTTP_PORT},
+  "port": 8181,
   "logLevel": "${LOG_LEVEL}",
   "ice.singlePort": ${UDP_PORT},
   "ice.udpPortRangeLow": ${UDP_PORT_LOW},
@@ -26,4 +26,23 @@ cat > config.json << EOF
 }
 EOF
 
+cat > nginx.conf << EOF
+events {}
+http {
+  server {
+    listen  0.0.0.0:${HTTP_PORT};
+    location / {
+      proxy_set_header Host \$host;
+      proxy_pass http://127.0.0.1:8181;
+      add_header X-Proxy yes always;
+    }
+    location = / {
+      access_log off;
+      return 200 "OK";
+    }
+  }
+}
+EOF
+
+/usr/sbin/nginx -c /app/nginx.conf -g "daemon on;"
 ./smb config.json
