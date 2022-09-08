@@ -20,6 +20,7 @@ services:
     environment:
       - HTTP_PORT=8180
       - UDP_PORT=0
+      - API_KEY=<api-key>
     logging:
       driver: "local"
       options:
@@ -37,3 +38,4 @@ Default configuraiton can be changed by setting these environment variables:
 - `LOG_STD_OUT`
 - `TCP_ENABLE`
 - `IPV4_ADDR` (no quotes)
+- `API_KEY` : Override default api-key to access endpoint (eyevinn).
