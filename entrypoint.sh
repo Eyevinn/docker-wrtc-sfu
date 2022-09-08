@@ -7,6 +7,7 @@
 : "${UDP_PORT_LOW:=10006}"
 : "${UDP_PORT_HI:=11000}"
 : "${TCP_ENABLE:=false}"
+: "${API_KEY:=eyevinn}"
 
 cat > config.json << EOF
 {
@@ -29,15 +30,34 @@ EOF
 cat > nginx.conf << EOF
 events {}
 http {
+  map \$http_x_apikey \$api_realm {
+    default "";
+    "${API_KEY}" "api_granted";
+  }
   server {
     listen  0.0.0.0:${HTTP_PORT};
     location / {
       proxy_set_header Host \$host;
       proxy_pass http://127.0.0.1:8181;
+      if (\$request_method = 'OPTIONS') {
+        add_header Access-Control-Allow-Headers "X-APIkey, Authorization";
+      }
+      satisfy any;
+      auth_request /authorize_apikey;
     }
     location = / {
       access_log off;
       proxy_pass http://127.0.0.1:8181/about/health;
+    }
+    location = /authorize_apikey {
+      internal;
+      if (\$api_realm = "") {
+        return 403; # Forbidden
+      }
+      if (\$http_x_apikey = "") {
+        return 401; # Unauth
+      }
+      return 204; # OK
     }
   }
 }
