@@ -34,11 +34,10 @@ http {
     location / {
       proxy_set_header Host \$host;
       proxy_pass http://127.0.0.1:8181;
-      add_header X-Proxy yes always;
     }
     location = / {
       access_log off;
-      return 200 "OK";
+      proxy_pass http://127.0.0.1:8181/about/health;
     }
   }
 }
