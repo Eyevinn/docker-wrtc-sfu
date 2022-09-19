@@ -8,11 +8,12 @@
 : "${UDP_PORT_HI:=11000}"
 : "${TCP_ENABLE:=false}"
 : "${API_KEY:=eyevinn}"
+: "${HTTP_BIND_PORT:=8181}"
 
 cat > config.json << EOF
 {
   "logStdOut": ${LOG_STD_OUT},
-  "port": 8181,
+  "port": ${HTTP_BIND_PORT},
   "logLevel": "${LOG_LEVEL}",
   "ice.singlePort": ${UDP_PORT},
   "ice.udpPortRangeLow": ${UDP_PORT_LOW},
@@ -39,7 +40,7 @@ http {
     listen  0.0.0.0:${HTTP_PORT};
     location / {
       proxy_set_header Host \$host;
-      proxy_pass http://127.0.0.1:8181;
+      proxy_pass http://127.0.0.1:${HTTP_BIND_PORT};
       if (\$request_method = 'OPTIONS') {
         add_header Access-Control-Allow-Headers "X-APIkey, Authorization";
       }
@@ -48,7 +49,7 @@ http {
     }
     location = / {
       access_log off;
-      proxy_pass http://127.0.0.1:8181/about/health;
+      proxy_pass http://127.0.0.1:${HTTP_BIND_PORT}/about/health;
     }
     location = /authorize_apikey {
       internal;
