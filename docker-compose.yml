@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  sfu:
+    image: wrtc-sfu:dev
+    cap_add:
+      - SYS_NICE
+    ulimits:
+      rtprio: 99
+    environment:
+      - HTTP_PORT=8280
+      - HTTP_BIND_PORT=6001
+      - UDP_PORT=13000
+      - IPV4_ADDR=127.0.0.1
+      - API_KEY=example
+    logging:
+      driver: "local"
+      options:
+        max-size: 10m
+    ports:
+      - "8280:8280/tcp"
+      - "13000:13000/udp"
+  ingest:
+    image: eyevinntechnology/wrtc-origin:v0.2.1
+    depends_on:
+      - sfu
+      - sfu-edge
+    environment:
+      - PORT=8200
+      - EXT_PORT=8200
+      - ORIGIN_SFU_URL=http://sfu:8280/conferences/
+      - SFU_API_KEY=example
+      - EDGE_LIST_CONFIG=/etc/edge-list-config.json
+    ports:
+      - "8200:8200/tcp"
+    volumes:
+      - ./example-edge-list-config.json:/etc/edge-list-config.json
+  sfu-edge:
+    image: wrtc-sfu:dev
+    cap_add:
+      - SYS_NICE
+    ulimits:
+      rtprio: 99
+    environment:
+      - HTTP_PORT=8380
+      - HTTP_BIND_PORT=6002
+      - UDP_PORT=12000
+      - IPV4_ADDR=127.0.0.1
+      - API_KEY=example
+    logging:
+      driver: "local"
+      options:
+        max-size: 10m
+    ports:
+      - "8380:8380/tcp"
+      - "12000:12000/udp"
+  egress:
+    build: .
+    image: wrtc-whpp:dev
+    environment:
+      - PORT=8300
+      - EXT_PORT=8300
+      - HOSTNAME=localhost
+      - SMB_URL=http://sfu-edge:8380/conferences/
+      - SMB_API_KEY=example
+    ports:
+      - "8300:8300/tcp"

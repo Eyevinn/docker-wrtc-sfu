@@ -31,6 +31,7 @@ services:
 
 Default configuraiton can be changed by setting these environment variables:
 - `HTTP_PORT`
+- `HTTP_BIND_PORT` : when running two containers on the same host in `host` network mode you can override the default port that the SMB service binds the HTTP API to.
 - `UDP_PORT` : 0 to use port range
 - `UDP_PORT_LOW`
 - `UDP_PORT_HIGH`
