@@ -9,6 +9,7 @@
 : "${TCP_ENABLE:=false}"
 : "${API_KEY:=eyevinn}"
 : "${HTTP_BIND_PORT:=8181}"
+: "${INACTIVITY_TIMEOUT:=60000}"
 
 cat > config.json << EOF
 {
@@ -24,7 +25,7 @@ cat > config.json << EOF
   "defaultLastN": 1,
   "rctl.enable": true,
   "rctl.debugLog": false,
-  "mixerInactivityTimeoutMs": 30000,
+  "mixerInactivityTimeoutMs": ${INACTIVITY_TIMEOUT},
   "recording.singlePort": 0
 }
 EOF

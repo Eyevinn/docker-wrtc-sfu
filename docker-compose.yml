@@ -21,7 +21,7 @@ services:
       - "8280:8280/tcp"
       - "13000:13000/udp"
   ingest:
-    image: eyevinntechnology/wrtc-origin:v0.2.1
+    image: eyevinntechnology/wrtc-origin:v0.3.0
     depends_on:
       - sfu
       - sfu-edge
@@ -55,8 +55,7 @@ services:
       - "8380:8380/tcp"
       - "12000:12000/udp"
   egress:
-    build: .
-    image: wrtc-whpp:dev
+    image: eyevinntechnology/wrtc-whpp:v0.2.0
     environment:
       - PORT=8300
       - EXT_PORT=8300
