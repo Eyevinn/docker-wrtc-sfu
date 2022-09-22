@@ -22,7 +22,6 @@ cat > config.json << EOF
   "ice.tcp.enable": ${TCP_ENABLE},
   "ice.publicIpv4": "${IPV4_ADDR}",
   "ice.publicIpv6": "${IPV6_ADDR}",
-  "defaultLastN": 1,
   "rctl.enable": true,
   "rctl.debugLog": false,
   "mixerInactivityTimeoutMs": ${INACTIVITY_TIMEOUT},
