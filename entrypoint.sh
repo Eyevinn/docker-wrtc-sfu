@@ -3,13 +3,12 @@
 : "${HTTP_PORT:=8080}"
 : "${LOG_LEVEL:=INFO}"
 : "${LOG_STD_OUT:=true}"
-: "${UDP_PORT:=0}"
-: "${UDP_PORT_LOW:=10006}"
-: "${UDP_PORT_HI:=11000}"
+: "${UDP_PORT:=10000}"
+: "${NUM_UDP_PORTS:=1}"
 : "${TCP_ENABLE:=false}"
 : "${API_KEY:=eyevinn}"
 : "${HTTP_BIND_PORT:=8181}"
-: "${WORKER_THREADS:=7}"
+: "${WORKER_THREADS:=0}"
 : "${INACTIVITY_TIMEOUT:=60000}"
 
 cat > config.json << EOF
@@ -18,8 +17,7 @@ cat > config.json << EOF
   "port": ${HTTP_BIND_PORT},
   "logLevel": "${LOG_LEVEL}",
   "ice.singlePort": ${UDP_PORT},
-  "ice.udpPortRangeLow": ${UDP_PORT_LOW},
-  "ice.udpPortRangeHigh": ${UDP_PORT_HI},
+  "ice.sharedPorts": ${NUM_UDP_PORTS},
   "ice.tcp.enable": ${TCP_ENABLE},
   "ice.publicIpv4": "${IPV4_ADDR}",
   "ice.publicIpv6": "${IPV6_ADDR}",
