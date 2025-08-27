@@ -36,6 +36,10 @@ http {
     default "";
     "${API_KEY}" "api_granted";
   }
+  map \$http_authorization \$api_realm {
+    default "";
+    "Bearer ${API_KEY}" "api_granted";
+  }
   server {
     listen  0.0.0.0:${HTTP_PORT};
     location / {

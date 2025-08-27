@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SMB_VERSION=2.2.0-413
+SMB_VERSION=2.4.0-550
 
 git clone https://github.com/eyevinn/SymphonyMediaBridge.git
 pushd SymphonyMediaBridge
