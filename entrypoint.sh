@@ -32,10 +32,27 @@ EOF
 cat > nginx.conf << EOF
 events {}
 http {
-  map \$http_x_apikey \$api_realm {
+  map \$http_x_apikey \$api_key_valid {
     default "";
-    "${API_KEY}" "api_granted";
+    "${API_KEY}" "ok";
   }
+  
+  map \$http_authorization \$bearer_token {
+    default "";
+    ~^Bearer\s+(.+)$ \$1;   # captures token part
+  }
+
+  map \$bearer_token \$api_bearer_token_valid {
+    default "";
+    "${API_KEY}" "ok";
+  }
+
+  map \$api_key_valid\$api_bearer_token_valid \$api_access_granted {
+    default 0;
+    ~ok 1;
+  }
+
+
   server {
     listen  0.0.0.0:${HTTP_PORT};
     location / {
@@ -53,11 +70,8 @@ http {
     }
     location = /authorize_apikey {
       internal;
-      if (\$api_realm = "") {
-        return 403; # Forbidden
-      }
-      if (\$http_x_apikey = "") {
-        return 401; # Unauth
+      if (\$api_access_granted = 0) {
+        return 401; # Forbidden
       }
       return 204; # OK
     }
@@ -66,4 +80,4 @@ http {
 EOF
 
 /usr/sbin/nginx -c /app/nginx.conf -g "daemon on;"
-./smb config.json
+smb config.json
