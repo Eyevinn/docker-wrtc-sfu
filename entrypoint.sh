@@ -11,6 +11,12 @@
 : "${WORKER_THREADS:=0}"
 : "${INACTIVITY_TIMEOUT:=60000}"
 
+if [ -z "$IPV4_ADDR" ]; then
+  IPV4_ADDR=$(wget -qO- https://ipinfo.io/ip | tr -d '\n')
+fi
+
+echo "Using IPv4 address: $IPV4_ADDR"
+
 cat > config.json << EOF
 {
   "logStdOut": ${LOG_STD_OUT},
