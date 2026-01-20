@@ -5,9 +5,7 @@ that can be used as SFU in a WebRTC based broadcast streaming solution.
 
 ## Deploy on Open Source Cloud
 
-Deploy this SFU with [one click](https://app.osaas.io/browse/eyevinn-docker-wrtc-sfu) on Open Source Cloud.
-
-[![Badge OSC](https://app.osaas.io/images/osc-logo.svg)](https://www.osaas.io)
+Deploy this SFU with one click on [Open Source Cloud](https://www.osaas.io).
 
 ## Docker Compose
 
