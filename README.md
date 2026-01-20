@@ -3,6 +3,14 @@
 Docker container of [Symphony Media Bridge](https://github.com/finos/SymphonyMediaBridge)
 that can be used as SFU in a WebRTC based broadcast streaming solution.
 
+## Deploy on Open Source Cloud
+
+Deploy this SFU with one click on [Open Source Cloud](https://www.osaas.io/).
+
+[![Deploy on Open Source Cloud](https://www.osaas.io/badge.svg)](https://app.osaas.io/browse/eyevinn-docker-wrtc-sfu)
+
+## Docker Compose
+
 Example docker-compose file:
 
 ```
