@@ -38,6 +38,14 @@ EOF
 cat > nginx.conf << EOF
 events {}
 http {
+  # Raise map_hash_bucket_size above the 64-byte default. The maps below are
+  # keyed on the API_KEY value; a long API_KEY (for example keys provisioned
+  # when deploying via Open Source Cloud) overflows the default bucket, so
+  # nginx fails at startup with
+  #   could not build map_hash, you should increase map_hash_bucket_size: 64
+  # never binds the listen port, and the proxy then returns 502 on every path.
+  map_hash_bucket_size 128;
+
   map \$http_x_apikey \$api_key_valid {
     default "";
     "${API_KEY}" "ok";
