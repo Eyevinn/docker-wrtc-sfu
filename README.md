@@ -45,3 +45,11 @@ Default configuraiton can be changed by setting these environment variables:
 - `TCP_ENABLE`
 - `IPV4_ADDR` (no quotes)
 - `API_KEY` : Override default api-key to access endpoint (eyevinn).
+- `VIDEO_CODEC` : Video codec, `VP8` (default) or `H264`.
+- `H264_PROFILE_LEVEL_ID` : H264 profile-level-id (default `42001f`). Use `42e01f` for Constrained Baseline, which WebRTC mandates and Safari expects.
+- `H264_PACKETIZATION_MODE` : H264 packetization mode (default `1`).
+- `RCTL_INITIAL_ESTIMATE` : Initial bandwidth estimate in kbps (default `1200`). Consumers that do not send REMB (e.g. GStreamer webrtcbin) stay at this estimate.
+- `RCTL_FLOOR` : Rate control floor in kbps (default `300`).
+- `RCTL_CEILING` : Rate control ceiling in kbps (default `9000`).
+
+The config file is generated at container start, so changing any of these on a running instance requires a restart (on Open Source Cloud: recreate the instance).

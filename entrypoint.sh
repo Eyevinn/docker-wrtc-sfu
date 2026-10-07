@@ -10,6 +10,12 @@
 : "${HTTP_BIND_PORT:=8181}"
 : "${WORKER_THREADS:=0}"
 : "${INACTIVITY_TIMEOUT:=60000}"
+: "${VIDEO_CODEC:=VP8}"
+: "${H264_PROFILE_LEVEL_ID:=42001f}"
+: "${H264_PACKETIZATION_MODE:=1}"
+: "${RCTL_INITIAL_ESTIMATE:=1200}"
+: "${RCTL_FLOOR:=300}"
+: "${RCTL_CEILING:=9000}"
 
 if [ -z "$IPV4_ADDR" ]; then
   IPV4_ADDR=$(wget -qO- https://ipinfo.io/ip | tr -d '\n')
@@ -29,6 +35,12 @@ cat > config.json << EOF
   "ice.publicIpv6": "${IPV6_ADDR}",
   "rctl.enable": true,
   "rctl.debugLog": false,
+  "rctl.initialEstimate": ${RCTL_INITIAL_ESTIMATE},
+  "rctl.floor": ${RCTL_FLOOR},
+  "rctl.ceiling": ${RCTL_CEILING},
+  "codec.videoCodec": "${VIDEO_CODEC}",
+  "codec.h264ProfileLevelId": "${H264_PROFILE_LEVEL_ID}",
+  "codec.h264PacketizationMode": ${H264_PACKETIZATION_MODE},
   "mixerInactivityTimeoutMs": ${INACTIVITY_TIMEOUT},
   "recording.singlePort": 0,
   "numWorkerTreads": ${WORKER_THREADS}
